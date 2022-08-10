@@ -1,6 +1,7 @@
 #include "main.h"
+#include <stdio.h>
 
-/*
+/**
  * _printf -  a function that produces output according to a format
  * @format: is a character string
  * @char: character
@@ -10,7 +11,7 @@
 
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, _flags *);
+	int (*pfunc)(va_list);
 
 	const char *p;
 	va_list list;
@@ -29,20 +30,15 @@ int _printf(const char *format, ...)
 			p++;
 			if (*p == '%')
 			{
-				count += _putchar('%');
+				count += putchar('%');
 				continue;
 			}
-			while (get_flag(*p, &flags))
-				p++;
-			pfunc = get_print(*p);
-			count += (pfunc)
-				? pfunc(list, &flags)
-				: _printf("%%%c", *p);
-		}
 		else
-			count += _putchar(*p);
+			count += putchar(*p);
 	}
-	_putchar(-1);
+	putchar(-1);
 	va_end(list);
 	return (count);
+
+	}
 }
