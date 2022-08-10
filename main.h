@@ -63,17 +63,10 @@ void rev_string(char *s);
 
 
 /**
-
- *struct format - structure for printing various types
-
- *@select: type to print
-
- *@meth: function to print
-
+ * struct format - structure for printing various types
+ * @select: type to print
+ * @meth: function to print
  */
-
-
-
 typedef struct format
 
 {
@@ -81,9 +74,5 @@ typedef struct format
 	const char select;
 
 	int (*meth)(va_list);
-
 } format_t;
-
-
-
 #endif
