@@ -1,21 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "main.h"
 
 /**
- *_printf - function like printf
- *@format: string with format to print
- *Return: number of chars that print
+ *_printf - prints a formated output to the stdout and returns the length of output
+ *@format: format string containing the characters and the specifiers
+ *Description: this function will call the get_print() function that will
+ *determine which printing function to call depending on the conversion
+ *specifiers contained into fmt
+ *
+ *Return: length of the formatted output string
 */
 
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int length = 0;
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
 
-	if (format == NULL)
+	flags_t flags = {0, 0, 0};
+	register int count = 0;
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
 	return (-1);
-	va_start(args, format);
-	length = _print_format(format, args);
-	va_end(args);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+	return (-1);
+	for (p = format; *p; p++)
+	{
+	if (*p == '%')
+	{
+	p++;
+	if (*p == '%')
+	{
+	count += _putchar('%');
+	continue;
+	}
+	while (get_flag(*p, &flags))
+	p++;
+	pfunc = get_print(*p);
+	count += (pfunc)
+	? pfunc(arguments, &flags)
+	: _printf("%%%c", *p);
+	} else
+	count += _putchar(*p);
+	}
+	_putchar(-1);
+	va_end(arguments);
 
-	return (length);
+	return (count);
 }
