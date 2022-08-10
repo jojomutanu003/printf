@@ -1,78 +1,65 @@
-#ifndef _MAIN_H
+#ifndef MAIN_H
 
-#define _MAIN_H
-
-
-
-#define BUFSIZE MAXLENGTH
-
-#define END '\0'
+#define MAIN_H
 
 
+
+#include <stdarg.h>
+
+#include <stdlib.h>
 
 #include <stdio.h>
 
 #include <unistd.h>
 
-#include <stdlib.h>
-
-#include <stdarg.h>
-
-#include <limits.h>
-
-#include <string.h>
-
-
-
-int _putchar(char c);
-
-int _printf(const char *format, ...);
-
-int print_c(va_list params);
-
-int print_s(va_list params);
-
-int print_p(__attribute__((unused))va_list params);
-
-int print_i(va_list params);
-
-int print_d(va_list params);
-
-int (*get_func(const char a))(va_list);
-
-int print_i(va_list params);
-
-int print_d(va_list params);
-
-int bin_r(unsigned int num, int len);
-
-int print_b(va_list params);
-
-int print_u(va_list params);
-
-int print_o(va_list args);
-
-int rot13(va_list params);
-
-int print_rev(va_list params);
-
-
-
-void rev_string(char *s);
-
 
 
 /**
- * struct format - structure for printing various types
- * @select: type to print
- * @meth: function to print
+
+ * struct specifiers - Structure specifiers
+
+ * @specifier: The conversion Specifier
+
+ * @f: The function pointer
+
  */
-typedef struct format
+
+typedef struct specifiers
 
 {
 
-	const char select;
+	char *specifier;
 
-	int (*meth)(va_list);
-} format_t;
-#endif
+	int (*f)(va_list args);
+
+} spc_dt;
+
+
+
+int _write(char c);
+
+int _printf(const char *format, ...);
+
+int _print_a_char(va_list args);
+
+int _print_a_string(va_list args);
+
+int _print_spec(char format, va_list args);
+
+int _print_format(const char *format, va_list args);
+
+int _print_invalid_spec(char prev_format, char format, int count);
+
+int _print_a_integer(va_list args);
+
+void _recursion_integer(int a);
+
+int _print_int_binary(va_list args);
+
+void _recursion_int_binary(int a);
+
+int _validate_char(char _type);
+
+
+
+#endif /* _MAIN.H */

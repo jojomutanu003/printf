@@ -1,44 +1,43 @@
 #include "main.h"
 
+
+
 /**
- *_printf - function to print anything
- *@format: types of argument passed to the function
- *Return: number of cs printed
-*/
+
+ * _printf - function like printf
+
+ * @format: string with format to print
+
+ *
+
+ * Return: number of chars that print
+
+ */
 
 int _printf(const char *format, ...)
+
 {
-	int check = 0, i;
-	va_list params;
-	int (*func)(va_list);
 
-	va_start(params, format);
-	if (!format)
-	return (-1);
-	for (i = 0; format[i]; i++)
-	{
-	if (format[i] == '%')
-	{
-	i++;
-	if (!(format[i]))
-	return (-1);
-	func = get_func(format[i]);
-	if (!func)
-	{
-	_putchar('%');
-	_putchar(format[i]);
-	check += 2;
-	}
-	else
-	check += func(params);
-	}
-	else
-	{
-	_putchar(format[i]);
-	check++;
-	}
-	}
-	va_end(params);
+	va_list args;
 
-	return (check);
+	int length = 0;
+
+
+
+	if (format == NULL)
+
+		return (-1);
+
+
+
+	va_start(args, format);
+
+
+
+	length = _print_format(format, args);
+
+	va_end(args);
+
+	return (length);
+
 }
