@@ -1,35 +1,56 @@
-#include <stdlib.h>
-#include <stddef.h>
+#include <unistd.h>
 #include "main.h"
 
+void print_buff(char buff[], int *buff_ind);
+
 /**
- * _printf - recreates the printf function
- * @format: string with format specifier
- * Return: number of characters printed
+ * _printf - Printf function
+ * @format: format.
+ *
+ * Description: prints loops thourgh the buffer.
+ * Return: Printed chars.
  */
-
-int _printf(const char * format, ...)
+int _printf(const char *format, ...)
 {
-	int i, p = 0;
-	int (*m)(va_list);
-	va_list args;
-	void (*f)(va_list);
+	int i, printed_chars = 0;
+	int buff_ind = 0;
+	va_list list;
+	char buff[BUFF_SIZE];
 
-    va_start(args, format);
-	i = 0;
-	while (format != NULL && format[i] != '\0')
+	if (format == NULL)
+		return (-1);
+
+	va_start(list, format);
+
+	for (i = 0; format && format[i] != '\0'; i++)
 	{
-		if (format[i] == '%')
+		if (format[i] != '%')
 		{
-            m = get_func(format[i + 1]);
-			p = m(args);
-			i += 2;
-        }
-        _putchar(format[i]);
-		i++;
+			buff[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buff(buff, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
+		}
 	}
-	_putchar('\n');
-	va_end(args);
-    return(p);
+	print_buff(buff, &buff_ind);
+	va_end(list);
+	return (printed_chars);
 }
 
+/**
+ * print_buffer - Prints the contents of the buffer if it exist
+ * @buffer: Array of chars
+ * @buff_ind: Index at which to add next char, represents the length.
+ *
+ * Description: The if statment checks the buffer content and prints it,
+ * the printing is only when it exists.
+ * Return: void
+ */
+void print_buff(char buff[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+		write(1, &buff[0], *buff_ind);
+
+	*buff_ind = 0;
+}

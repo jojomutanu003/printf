@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#define BUFF_SIZE 1024
+
+int _printf(const char *format, ...);
 int _puts(char *str);
 int _putchar(char c);
-char *convert(unsigned int num, int base, int lowercase);
-int _printf(const char *format, ...);
 int (*get_func(char x))(va_list args);
-
 #endif
