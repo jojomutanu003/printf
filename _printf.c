@@ -9,36 +9,24 @@
  * Return: the number of characters printed
  */
 
-int _printf(const char *format, ...)
+int _printf(const char * format, ...)
 {
-	int (*pfunc)(va_list);
+	int i, p;
+	va_list args;
+	void (*f)(va_list);
 
-	const char *p;
-	va_list list;
-
-	register int count = 0;
-
-	va_start(list, format);
-	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+	va_start(args, format);
+	i = 0;
+	while (format != NULL && format[i] != '\0')
 	{
-		if (*p == '%')
+		if (format[i] == '%')
 		{
-			p++;
-			if (*p == '%')
-			{
-				count += putchar('%');
-				continue;
-			}
-		else
-			count += putchar(*p);
-	}
-	putchar(-1);
-	va_end(list);
-	return (count);
+			f = get_func(format[i + 1]);
+			p = f(args);	
+		}
+		i++;
 
 	}
+	va_end(args);
+	return(0);
 }
